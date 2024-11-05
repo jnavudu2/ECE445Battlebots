@@ -3,6 +3,7 @@
 ```
 cd esp-idf
 git submodule init
+git submodule update
 ```
 
 2. Install Tools
@@ -10,18 +11,25 @@ git submodule init
 ./install.sh esp32s3
 ```
 
-3. Before building, plug in ESP32 and update usb driver.
-- In windows:
+3. Before building, plug in ESP32 (using `UART` port) and update usb driver.
+- In Windows, open Powershell as administrator and run:
 ```
-usbipd attach --wsl --busid 4-1
+usbipd list
 ```
+Find "CP2102N USB to UART Bridge Controller" and note the busid.
+```
+usbipd attach --wsl --busid <busid>
+```
+
+**Note:** You may have to run `usbipd bind --busid <busid>` first.
+
 - In Linux to verify usb is detected:
 ```
 lsusb
 ```
 - Find usb port in linux:
 ```
-ls /dev/tty*
+ls /dev/ttyUSB*
 ```
 - The result should be:
 ```
@@ -47,3 +55,4 @@ idf.py -p /dev/ttyUSB0 flash
 ```
 idf.py -p /dev/ttyUSB0 monitor
 ```
+To exit monitor, press `Ctrl + ]`
