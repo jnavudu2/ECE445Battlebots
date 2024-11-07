@@ -40,7 +40,7 @@ ls /dev/ttyUSB*
 1. Go into specified library
 2. Export idf environment
 ```
-. {path_to_esp-idf}/.export.sh
+. {path_to_esp-idf}/export.sh
 ```
 3. Build
 ```
