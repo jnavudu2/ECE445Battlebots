@@ -1,0 +1,38 @@
+Designator,Comment,Layer,Footprint,Center-X(mm),Center-Y(mm),Rotation,Description,Ref-X(mm),Ref-Y(mm),Pad-X(mm),Pad-Y(mm)
+U2C,MCF8316A1VRGFR,TopLayer,RGF0040E-IPC_A,14.9820mm,8.8370mm,0,No Description Available,14.9820mm,8.8370mm,12.4790mm,11.5870mm
+U2B,MCF8316A1VRGFR,TopLayer,RGF0040E-IPC_A,30.2240mm,8.5830mm,0,No Description Available,30.2240mm,8.5830mm,27.7210mm,11.3330mm
+U2A,MCF8316A1VRGFR,TopLayer,RGF0040E-IPC_A,45.8470mm,8.8370mm,0,No Description Available,45.8470mm,8.8370mm,43.3440mm,11.5870mm
+U1,TMUX131RMGR,TopLayer,FP-RMG0012A-MFG,25.5270mm,17.5260mm,0,"TMUX131RMGR Low capacitance, 3.6-V, 3: 1, 2-channel, powered-off protected switch with 1.8-V logic 12-WQFN -40 to 85",25.5270mm,17.5260mm,24.8770mm,17.7260mm
+R10C,5.1k,BottomLayer,RES-0603,13.0810mm,15.6210mm,90,,13.0810mm,15.6210mm,13.0810mm,14.8710mm
+R10B,5.1k,BottomLayer,RES-0603,28.4480mm,14.8590mm,90,,28.4480mm,14.8590mm,28.4480mm,14.1090mm
+R10A,5.1k,BottomLayer,RES-0603,42.7990mm,14.9860mm,180,,42.7990mm,14.9860mm,43.5490mm,14.9860mm
+R6C,10k,TopLayer,RES-0603,18.7960mm,4.3180mm,270,,18.7960mm,4.3180mm,18.7960mm,5.0680mm
+R6B,10k,TopLayer,RES-0603,34.1630mm,4.4450mm,270,,34.1630mm,4.4450mm,34.1630mm,5.1950mm
+R6A,10k,TopLayer,RES-0603,49.9110mm,4.1910mm,270,,49.9110mm,4.1910mm,49.9110mm,4.9410mm
+R5C,22,BottomLayer,RES-0603,6.9850mm,15.4940mm,270,,6.9850mm,15.4940mm,6.9850mm,16.2440mm
+R5B,22,BottomLayer,RES-0603,21.9710mm,14.8590mm,270,,21.9710mm,14.8590mm,21.9710mm,15.6090mm
+R5A,22,BottomLayer,RES-0603,37.8460mm,15.4940mm,270,,37.8460mm,15.4940mm,37.8460mm,16.2440mm
+R4,5.1k,TopLayer,RES-0603,27.0510mm,24.2570mm,180,,27.0510mm,24.2570mm,27.8010mm,24.2570mm
+R3,5.1k,TopLayer,RES-0603,25.1460mm,20.1930mm,180,,25.1460mm,20.1930mm,25.8960mm,20.1930mm
+C8C,1uF,TopLayer,CAP-0603,9.7790mm,8.3820mm,270,"X5R or X7R, 16V ceramic",9.7790mm,8.3820mm,9.7790mm,9.1320mm
+C8B,1uF,TopLayer,CAP-0603,25.4000mm,8.1280mm,270,"X5R or X7R, 16V ceramic",25.4000mm,8.1280mm,25.4000mm,8.8780mm
+C8A,1uF,TopLayer,CAP-0603,41.0210mm,8.5090mm,270,"X5R or X7R, 16V ceramic",41.0210mm,8.5090mm,41.0210mm,9.2590mm
+C7C,47nF,TopLayer,CAP-0603,9.7790mm,11.5570mm,90,"X5R or X7R, >32V ceramic",9.7790mm,11.5570mm,9.7790mm,10.8070mm
+C7B,47nF,TopLayer,CAP-0603,25.2730mm,10.7950mm,90,"X5R or X7R, >32V ceramic",25.2730mm,10.7950mm,25.2730mm,10.0450mm
+C7A,47nF,TopLayer,CAP-0603,39.7510mm,11.9380mm,90,"X5R or X7R, >32V ceramic",39.7510mm,11.9380mm,39.7510mm,11.1880mm
+C6C,1uF,TopLayer,CAP-0603,11.6840mm,15.3670mm,90,"X5R or X7R, 16V ceramic",11.6840mm,15.3670mm,11.6840mm,14.6170mm
+C6B,1uF,TopLayer,CAP-0603,27.3050mm,14.7320mm,180,"X5R or X7R, 16V ceramic",27.3050mm,14.7320mm,28.0550mm,14.7320mm
+C6A,1uF,TopLayer,CAP-0603,42.5450mm,13.8310mm,90,"X5R or X7R, 16V ceramic",42.5450mm,13.8310mm,42.5450mm,13.0810mm
+C5C,1uF,TopLayer,CAP-0603,18.7960mm,7.1120mm,270,"X5R or X7R, 16V ceramic",18.7960mm,7.1120mm,18.7960mm,7.8620mm
+C5B,1uF,TopLayer,CAP-0603,34.1630mm,7.2390mm,270,"X5R or X7R, 16V ceramic",34.1630mm,7.2390mm,34.1630mm,7.9890mm
+C5A,1uF,TopLayer,CAP-0603,49.9110mm,7.3660mm,270,"X5R or X7R, 16V ceramic",49.9110mm,7.3660mm,49.9110mm,8.1160mm
+C4C,10uF,TopLayer,EEF-CX1E330R-Footprint-1,6.7310mm,5.8420mm,270,"Aluminum Electrolytic Capacitor, 10 uF, +/- 20%, 50 V, -40 to 85 degC, 2-Pin THD, RoHS, Bulk",6.7310mm,5.8420mm,6.7310mm,8.8420mm
+C4B,10uF,TopLayer,EEF-CX1E330R-Footprint-1,22.0980mm,5.8420mm,270,"Aluminum Electrolytic Capacitor, 10 uF, +/- 20%, 50 V, -40 to 85 degC, 2-Pin THD, RoHS, Bulk",22.0980mm,5.8420mm,22.0980mm,8.8420mm
+C4A,10uF,TopLayer,EEF-CX1E330R-Footprint-1,37.8460mm,6.0480mm,270,"Aluminum Electrolytic Capacitor, 10 uF, +/- 20%, 50 V, -40 to 85 degC, 2-Pin THD, RoHS, Bulk",37.8460mm,6.0480mm,37.8460mm,9.0480mm
+C3C,.1uF,TopLayer,CAP-0603,9.7790mm,5.5880mm,90,"X5R or X7R, 16V ceramic",9.7790mm,5.5880mm,9.7790mm,4.8380mm
+C3B,.1uF,TopLayer,CAP-0603,25.4000mm,5.4610mm,90,"X5R or X7R, 16V ceramic",25.4000mm,5.4610mm,25.4000mm,4.7110mm
+C3A,.1uF,TopLayer,CAP-0603,41.0210mm,5.7150mm,90,"X5R or X7R, 16V ceramic",41.0210mm,5.7150mm,41.0210mm,4.9650mm
+C2C,1uF,BottomLayer,CAPC0603(1608)100_L,10.1600mm,15.4320mm,90,"Chip Capacitor, 1 uF, +/- 10%, 25 V, 1206 (3216 Metric)",10.1600mm,15.4320mm,10.1600mm,14.7320mm
+C2B,1uF,BottomLayer,CAPC0603(1608)100_L,24.3840mm,14.8590mm,90,"Chip Capacitor, 1 uF, +/- 10%, 25 V, 1206 (3216 Metric)",24.3840mm,14.8590mm,24.3840mm,14.1590mm
+C2A,1uF,BottomLayer,CAPC0603(1608)100_L,39.7510mm,15.4940mm,90,"Chip Capacitor, 1 uF, +/- 10%, 25 V, 1206 (3216 Metric)",39.7510mm,15.4940mm,39.7510mm,14.7940mm
+C1,1uF,TopLayer,CAP-0603,22.8600mm,19.6850mm,90,,22.8600mm,19.6850mm,22.8600mm,18.9350mm
