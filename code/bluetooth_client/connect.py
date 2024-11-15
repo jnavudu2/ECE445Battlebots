@@ -72,7 +72,6 @@ def find_device(adapter):
     return None
 
 def initialize_joystick():
-    pygame.init()
     pygame.joystick.init()
     if pygame.joystick.get_count() == 0:
         logging.error("No joysticks found")
@@ -81,6 +80,18 @@ def initialize_joystick():
     joystick.init()
     logging.info(f"Initialized joystick: {joystick.get_name()}")
     return joystick
+
+# used for simulation
+def get_joystick_input(joystick):
+    forward_backwards = joystick.get_axis(FORWARD_BACKWARD_AXIS)
+    left_right = joystick.get_axis(LEFT_RIGHT_AXIS)
+    weapon = joystick.get_button(WEAPON_BUTTON)
+    arm_1 = joystick.get_axis(ARM_1_AXIS)
+    arm_2 = joystick.get_axis(ARM_2_AXIS)
+    
+    left_motor, right_motor = compute_motor_speeds(forward_backwards, left_right)
+
+    return left_motor, right_motor, weapon, arm_1, arm_2
 
 def main():
     adapters = simplepyble.Adapter.get_adapters()
@@ -97,6 +108,7 @@ def main():
     peripheral.connect()
     logging.info("Successfully connected")
 
+    pygame.init()
     joystick = initialize_joystick()
     if not joystick:
         return
