@@ -1,14 +1,14 @@
 # Jeevan's Work Log
 
-## Table of Contents
-1. [Week 1: Concept Research] (#m1)
-2. [Week 2: Planning, Parts Selection] (#m2)
-3. [Week 3: Design for Version 1] (#m3)
-5. [Week 4: Feedback/Issues with Version 1] (#m4)
-6. [Week 5: Design for Version 2] (#m5)
-7. [Week 6: Feedback/Issues with Version 2] (#m6)
-8. [Week 7: Design for Version 3] (#m7)
-9. [Week 8: Feedback/Issues with Version 3] (#m8)
+# Table of Contents
+- [Week 1: Concept Research] (#m1)
+- [Week 2: Planning, Parts Selection] (#m2)
+- [Week 3: Design for Version 1] (#m3)
+- [Week 4: Feedback/Issues with Version 1] (#m4)
+- [Week 5: Design for Version 2] (#m5)
+- [Week 6: Feedback/Issues with Version 2] (#m6)
+- [Week 7: Design for Version 3] (#m7)
+- [Week 8: Feedback/Issues with Version 3] (#m8)
 
 
 
