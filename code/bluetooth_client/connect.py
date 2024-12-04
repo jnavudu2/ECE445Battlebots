@@ -9,8 +9,9 @@ CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
 # Joystick constants
 FORWARD_BACKWARD_AXIS = 1
-LEFT_RIGHT_AXIS = 3
-WEAPON_BUTTON = 1
+LEFT_RIGHT_AXIS = 0
+# WEAPON_BUTTON = 1
+WEAPON_AXIS = 2
 JOYSTICK_THRESHOLD = 0.1
 ARM_1_AXIS = 5
 ARM_2_AXIS = 7
@@ -25,12 +26,25 @@ def compute_motor_speeds(throttle, steering):
     if m > 1.0:
         L /= m
         R /= m
+
+    # Speed tuning
+    L = int(L / 4)
+    R = int(R / 4)
+
+    if R > 0:
+        R += 14
+    elif R < 0:
+        R -= 0
+
+    if L < 0:
+        L -= 10
+
     return (L, R)
 
 def inverse_message(message):
     weapon_on = message[0]
-    left_motor = int.from_bytes([message[1]], byteorder="big", signed=True)
-    right_motor = int.from_bytes([message[2]], byteorder="big", signed=True)
+    left_motor = int.from_bytes([message[1]], byteorder="little", signed=True)
+    right_motor = int.from_bytes([message[2]], byteorder="little", signed=True)
 
     return weapon_on, left_motor, right_motor
 
@@ -40,9 +54,23 @@ def to_signed_byte(value):
         value = 127 if value > 127 else -128
     return value if value >= 0 else 256 + value
 
-def create_message(forward_backwards, left_right, weapon):
+def scale_weapon_speed(weapon):
+    if weapon < 0:
+        weapon = 0
+    else:
+        weapon = int(weapon * 128 * 0.50) # max 25% weapon speed
+    return weapon
+
+def create_message(forward_backwards, left_right, weapon, arm_1, arm_2):
     left_motor, right_motor = compute_motor_speeds(forward_backwards, left_right)
-    return bytes([weapon, to_signed_byte(left_motor), to_signed_byte(right_motor)])
+    if arm_2 < 0.5:
+        weapon = 0
+        left_motor = 0
+        right_motor = 0
+    elif arm_1 < 0.5:
+        weapon = 0
+    
+    return bytes([scale_weapon_speed(weapon), to_signed_byte(left_motor), to_signed_byte(right_motor)])
 
 def select_adapter(adapters):
     if len(adapters) == 0:
@@ -62,7 +90,7 @@ def find_device(adapter):
     adapter.set_callback_on_scan_start(lambda: logging.info("Scan started."))
     adapter.set_callback_on_scan_stop(lambda: logging.info("Scan complete."))
     adapter.set_callback_on_scan_found(lambda peripheral: logging.info(f"Found {peripheral.identifier()} [{peripheral.address()}]"))
-    adapter.scan_for(5000)
+    adapter.scan_for(2000)
     peripherals = adapter.scan_get_results()
     for i, peripheral in enumerate(peripherals):
         if peripheral.identifier() == DEVICE_NAME:
@@ -85,7 +113,7 @@ def initialize_joystick():
 def get_joystick_input(joystick):
     forward_backwards = joystick.get_axis(FORWARD_BACKWARD_AXIS)
     left_right = joystick.get_axis(LEFT_RIGHT_AXIS)
-    weapon = joystick.get_button(WEAPON_BUTTON)
+    weapon = joystick.get_axis(WEAPON_AXIS)
     arm_1 = joystick.get_axis(ARM_1_AXIS)
     arm_2 = joystick.get_axis(ARM_2_AXIS)
     
@@ -119,17 +147,14 @@ def main():
             try:
                 forward_backwards = joystick.get_axis(FORWARD_BACKWARD_AXIS)
                 left_right = joystick.get_axis(LEFT_RIGHT_AXIS)
-                weapon = joystick.get_button(WEAPON_BUTTON)
+                weapon = joystick.get_axis(WEAPON_AXIS)
                 arm_1 = joystick.get_axis(ARM_1_AXIS)
                 arm_2 = joystick.get_axis(ARM_2_AXIS)
             except Exception as e:
                 logging.error(f"Joystick error: {str(e)}")
                 continue
 
-            if arm_1 > 0.5 and arm_2 > 0.5:
-                message = create_message(forward_backwards, left_right, weapon)
-            else:
-                message = create_message(0, 0, 0)
+            message = create_message(forward_backwards, left_right, weapon, arm_1, arm_2)
 
             try:
                 peripheral.write_request(SERVICE_UUID, CHARACTERISTIC_UUID, message)
@@ -139,7 +164,7 @@ def main():
                 logging.error(f"Bluetooth error: {str(e)}")
 
             # Wait to prevent spamming the device
-            pygame.time.wait(100)
+            pygame.time.wait(50)
     except KeyboardInterrupt:
         logging.info("Exiting due to user interruption")
 
