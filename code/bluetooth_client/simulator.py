@@ -28,6 +28,7 @@ max_speed = 1200  # Maximum speed in pixels per second
 max_angular_speed = 7  # Maximum angular speed in radians per second
 weapon_percentage = 0
 
+# Create robot physics
 body = pymunk.Body(mass, moment)
 body.position = WIDTH // 2, HEIGHT // 2
 
@@ -117,7 +118,7 @@ def draw_robot():
 
 def draw_status_box(screen, left_motor, right_motor, weapon_on, arm_1, arm_2):
      # Create status box background
-    box_width = 200
+    box_width = 280
     box_height = 180
     box_margin = 20
     box_rect = pygame.Rect(WIDTH - box_width - box_margin, box_margin, box_width, box_height)
@@ -131,7 +132,7 @@ def draw_status_box(screen, left_motor, right_motor, weapon_on, arm_1, arm_2):
     # Left Motor
     status_font.render_to(screen, 
                          (WIDTH - box_width - box_margin + 10, y_offset),
-                         f"Left Motor: {left_motor:.2f}", text_color)
+                         f"Left Motor:  {left_motor:.2f}", text_color)
     
     # Right Motor
     status_font.render_to(screen, 
@@ -141,21 +142,21 @@ def draw_status_box(screen, left_motor, right_motor, weapon_on, arm_1, arm_2):
     # Weapon Status
     status_font.render_to(screen, 
                          (WIDTH - box_width - box_margin + 10, y_offset + 70),
-                         f"Weapon: {weapon_percentage:.2f}%", text_color)
+                         f"Weapon:      {weapon_percentage:.1f}%", text_color)
     
     # Arm Status 1
     arm_status_1 = "ARMED" if arm_1 > 0.5 else "DISARMED"
-    arm_status_1_color = (255, 0, 0) if arm_status_1 == "ARMED" else text_color
+    arm_status_1_color = pygame.Color("red") if arm_status_1 == "ARMED" else pygame.Color("green")
     status_font.render_to(screen,
                         (WIDTH - box_width - box_margin + 10, y_offset + 105),
-                        f"Arm 1: {arm_status_1:>6}", arm_status_1_color)
+                        f"Arm 1:   {arm_status_1:>6}", arm_status_1_color)
     
     # Arm Status 2
     arm_status_2 = "ARMED" if arm_2 > 0.5 else "DISARMED"
-    arm_status_2_color = (255, 0, 0) if arm_status_2 == "ARMED" else text_color
+    arm_status_2_color = pygame.Color("red") if arm_status_2 == "ARMED" else pygame.Color("green")
     status_font.render_to(screen,
                         (WIDTH - box_width - box_margin + 10, y_offset + 140),
-                        f"Arm 2: {arm_status_2:>6}", arm_status_2_color)
+                        f"Arm 2:   {arm_status_2:>6}", arm_status_2_color)
     
 def draw_arena(screen):
     # Set arena colors
@@ -179,7 +180,7 @@ def draw_arena(screen):
     pygame.draw.line(screen, border_color, (0, HEIGHT // 2), (WIDTH, HEIGHT // 2), 5)  # Horizontal line
     
 pygame.freetype.init()
-status_font = pygame.freetype.SysFont('Arial', 24)
+status_font = pygame.freetype.SysFont('ttinterphasespromonotrlregular', 24)
 
 draw_robot()
 draw_options = pymunk.pygame_util.DrawOptions(screen)
