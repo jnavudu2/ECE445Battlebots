@@ -26,10 +26,12 @@ def compute_motor_speeds(throttle, steering):
     if m > 1.0:
         L /= m
         R /= m
+    return (L, R)
 
+def trim_motors(left_motor, right_motor):
     # Speed tuning
-    L = int(L / 4)
-    R = int(R / 4)
+    L = int(left_motor / 4)
+    R = int(left_motor / 4)
 
     if R > 0:
         R += 14
@@ -40,6 +42,7 @@ def compute_motor_speeds(throttle, steering):
         L -= 10
 
     return (L, R)
+
 
 def inverse_message(message):
     weapon_on = message[0]
@@ -63,6 +66,7 @@ def scale_weapon_speed(weapon):
 
 def create_message(forward_backwards, left_right, weapon, arm_1, arm_2):
     left_motor, right_motor = compute_motor_speeds(forward_backwards, left_right)
+    left_motor, right_motor = trim_motors(left_motor, right_motor)
     if arm_2 < 0.5:
         weapon = 0
         left_motor = 0

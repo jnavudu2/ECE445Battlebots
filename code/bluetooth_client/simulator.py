@@ -1,5 +1,6 @@
 import sys
 import math
+import random
 import pygame
 import pymunk
 import pymunk.pygame_util
@@ -32,7 +33,7 @@ ROBOT_SIZE = (ROBOT_WIDTH, ROBOT_HEIGHT)
 MASS_CENTER = pymunk.moment_for_box(ROBOT_MASS, ROBOT_SIZE)
 MASS_TOP = pymunk.moment_for_box(ROBOT_MASS * 0.3, (ROBOT_WIDTH * 0.8, ROBOT_HEIGHT * 0.3))
 ROBOT_MOMENT = MASS_CENTER + MASS_TOP
-MAX_SPEED = 1200
+MAX_SPEED = 400
 MAX_ANGULAR_SPEED = 7
 
 # Global state variables
@@ -46,26 +47,81 @@ arm_2 = 0
 body = pymunk.Body(ROBOT_MASS, ROBOT_MOMENT)
 body.position = WIDTH // 2, HEIGHT // 2
 
+# Collision logic
+ROBOT_COLLISION_TYPE = 1
+CIRCLE_COLLISION_TYPE = 2
+
+class CollisionObject:
+    def __init__(self, space, position, radius=15):
+        self.mass = 1
+        self.radius = radius
+        self.inertia = pymunk.moment_for_circle(self.mass, 0, self.radius)
+        self.body = pymunk.Body(self.mass, self.inertia)
+        self.body.position = position
+        self.shape = pymunk.Circle(self.body, self.radius)
+        self.shape.collision_type = CIRCLE_COLLISION_TYPE
+        self.shape.elasticity = 0.5
+        self.shape.friction = 0.5
+        space.add(self.body, self.shape)
+
+    def update(self):
+        # Apply friction by reducing velocity slightly each frame
+        self.body.velocity *= 0.94  # Adjust friction intensity as needed
+        if self.body.velocity.length < 0.0001:
+            self.body.velocity = pymunk.Vec2d.zero()
+
+        check_bounds(self.body, WIDTH, HEIGHT)
+
+def apply_force_on_collision(arbiter, space, data):
+    circle_shape, robot_shape = arbiter.shapes
+    impulse = pymunk.Vec2d(1000, 0).rotated(circle_shape.body.angle)  # Adjust force magnitude as needed
+    circle_shape.body.apply_impulse_at_world_point(impulse, arbiter.contact_point_set.points[0].point_a)
+    return True
+
+collision_handler = space.add_collision_handler(ROBOT_COLLISION_TYPE, CIRCLE_COLLISION_TYPE)
+collision_handler.begin = apply_force_on_collision
+
 def check_bounds(body, width, height):
     """
-    Ensures a body stays within the specified bounds of a window/screen.
+    Ensures a body stays within the specified bounds of a window/screen,
+    treating the status box as a wall.
 
     Args:
-        body: A pymunk.Body object representing the physical body to check
-        width (int): The maximum x-coordinate boundary
-        height (int): The maximum y-coordinate boundary
+    body: A pymunk.Body object representing the physical body to check
+    width (int): The maximum x-coordinate boundary
+    height (int): The maximum y-coordinate boundary
 
     Returns:
-        None. Body position is modified in place if out of bounds.
+    None. Body position is modified in place if out of bounds.
 
     Note:
-        - x position is clamped between 0 and width 
-        - y position is clamped between 0 and height
-        - Modifies the body's position directly if it exceeds boundaries
+    - x position is clamped between 0 and width
+    - y position is clamped between 0 and height
+    - Status box area is treated as a wall
+    - Modifies the body's position directly if it exceeds boundaries
     """
     x, y = body.position
-    x = max(0, min(x, width))
-    y = max(0, min(y, height))
+    
+    # Define status box dimensions
+    box_width, box_height, box_margin = 280, 180, 20
+    status_box_left = width - box_width - box_margin
+    
+    # Check x-axis bounds
+    if x < 0:
+        x = 0
+    elif x > width:
+        x = width
+    elif x > status_box_left - ROBOT_WIDTH / 2 and y < box_height + box_margin:
+        x = status_box_left - ROBOT_WIDTH / 2
+    
+    # Check y-axis bounds
+    if y < 0:
+        y = 0
+    elif y > height:
+        y = height
+    elif x > status_box_left - ROBOT_WIDTH / 2 and y < box_height + box_margin:
+        y = box_height + box_margin
+    
     body.position = (x, y)
 
 def apply_tank_drive(left_motor, right_motor):
@@ -261,6 +317,7 @@ if joystick is None:
 
 draw_robot()
 
+circles = [CollisionObject(space, (random.randint(50, WIDTH - 50), random.randint(50, HEIGHT - 50))) for _ in range(5)]
 # Main loop
 while True:
     for event in pygame.event.get():
@@ -277,11 +334,17 @@ while True:
         right_motor = 0
     apply_tank_drive(left_motor, right_motor)
 
+    for circle in circles:
+        circle.update()
+
     space.step(1 / CLOCK_FREQ)
     
     screen.fill(pygame.Color("white"))
     
     draw_arena(screen)
+
+    for circle in circles:
+        pygame.draw.circle(screen, pygame.Color("blue"), (int(circle.body.position.x), int(circle.body.position.y)), circle.radius)
     
     space.debug_draw(draw_options)
     
